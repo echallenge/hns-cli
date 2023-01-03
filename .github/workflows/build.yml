@@ -38,15 +38,16 @@ jobs:
 
     - name: Prepare Package
       run: |
-        mkdir -p debian/usr/bin
-        cp build/hsd-cli debian/usr/bin
-        cp build/hsw-cli debian/usr/bin
-        cp bin/hsd-rpc debian/usr/bin
-        cp bin/hsw-rpc debian/usr/bin
+        mkdir -p pkg/usr/bin
+        cp -r debian/ pkg/
+        cp build/hsd-cli pkg/usr/bin
+        cp build/hsw-cli pkg/usr/bin
+        cp bin/hsd-rpc pkg/usr/bin
+        cp bin/hsw-rpc pkg/usr/bin
     - name: Publish PPA
       uses: yuezk/publish-ppa-package@main
       with:
         repository: 'ppa:pcfreak30/hns-cli'
         gpg_private_key: ${{ secrets.PPA_GPG_PRIVATE_KEY }}
         gpg_passphrase: ${{ secrets.PPA_GPG_PASSPHRASE }}
-        pkgdir: '${{ github.workspace }}/debian'
+        pkgdir: '${{ github.workspace }}/pkg'
