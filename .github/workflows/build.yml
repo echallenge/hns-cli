@@ -40,7 +40,7 @@ jobs:
       run: |
         NAME=$(cat package.json | jq '.name')
         VERSION=$(cat package.json | jq '.version')
-        $PKG_FOLDER="$NAME-$VERSION"
+        PKG_FOLDER="$NAME-$VERSION"
         mkdir -p $NAME-$VERSION/usr/bin
         cp -r debian/ $PKG_FOLDER/
         cp build/hsd-cli $PKG_FOLDER/usr/bin
