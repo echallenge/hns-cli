@@ -36,10 +36,17 @@ jobs:
           deno compile --allow-all -o build/hsd-cli bundle/hsd-cli.js
           deno compile --allow-all  -o build/hsw-cli bundle/hsw-cli.js
 
-    - name: Add NFPM Repo
+    - name: Prepare Package
       run: |
-          echo 'deb [trusted=yes] https://repo.goreleaser.com/apt/ /' | sudo tee /etc/apt/sources.list.d/goreleaser.list
-          sudo apt-get update
-          sudo apt-get install nfpm
-    - name: Package
-      run: nfpm pkg --packager deb
+        mkdir -p debian/usr/bin
+        cp build/hsd-cli debian/usr/bin
+        cp build/hsw-cli debian/usr/bin
+        cp build/hsd-rpc debian/usr/bin
+        cp build/hsw-rpc debian/usr/bin
+    name: Publish PPA
+    uses: yuezk/publish-ppa-package@main
+    with:
+        repository: 'ppa:pcfreak30/hns-cli'
+        gpg_private_key: ${{ secrets.PPA_GPG_PRIVATE_KEY }}
+        gpg_passphrase: ${{ secrets.PPA_GPG_PASSPHRASE }}
+        pkgdir: '${{ github.workspace }}/debian'

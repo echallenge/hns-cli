@@ -1,0 +1,5 @@
+Package: hns-cli
+Version: 0.0.11
+Architecture: arm64
+Maintainer: Derrick Hammer <derrick@derrickhammer.com>
+Description: CLI Tools for the Handshake blockchain
