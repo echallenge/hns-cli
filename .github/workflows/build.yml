@@ -49,7 +49,7 @@ jobs:
         cp bin/hsw-rpc $PKG_FOLDER/usr/bin
         echo "PKG_FOLDER=$PKG_FOLDER" >> $GITHUB_ENV
     - name: Publish PPA
-      uses: yuezk/publish-ppa-package@main
+      uses: yuezk/publish-ppa-package@v1.0.0
       with:
         repository: 'ppa:pcfreak30/hns-cli'
         gpg_private_key: ${{ secrets.PPA_GPG_PRIVATE_KEY }}
