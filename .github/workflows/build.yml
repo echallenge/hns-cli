@@ -1,0 +1,46 @@
+name: Build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+
+    - uses: actions/checkout@v2
+    - name: Setup
+      uses: actions/setup-node@v1
+
+    - name: Install
+      run: npm install esbuild
+
+    - name: Build
+      run: node run build
+
+    - name: Setup Deno
+      uses: denoland/setup-deno@v1
+      with:
+        deno-version: v1.x
+    - name: Deno Compile
+      run: >
+          deno compile --allow-all bundle/hsd-cli.js -o build/hsd-cli
+          deno compile --allow-all bundle/hsw-cli.js -o build/hsw-cli
+
+    - name: Add NFPM Repo
+      uses: myci-actions/add-deb-repo@10
+      with:
+        repo: deb https://repo.goreleaser.com/apt/ /
+        repo-name: goreleaser
+        packages-to-install: nfpm
+    - name: Package
+      run: nfpm pkg --packager deb

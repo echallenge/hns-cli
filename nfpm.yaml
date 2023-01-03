@@ -1,0 +1,19 @@
+name: "hns-cli"
+arch: "amd64"
+platform: "linux"
+version: "v0.0.11"
+section: "default"
+priority: "extra"
+maintainer: "Derrick Hammer derrick@derrickhammer.com"
+description: CLI Tools for Handshake
+homepage: "https://github.com/pcfreak30/hns-cli"
+license: "MIT"
+contents:
+- src: ./build/hsd-cli
+  dst: /usr/bin/hsd-cli
+- src: ./build/hsw-cli
+  dst: /usr/bin/hsw-cli
+- src: ./bin/hsd-rpc
+  dst: /usr/bin/hsd-rpc
+- src: ./bin/hsw-rpc
+  dst: /usr/bin/hsw-rpc

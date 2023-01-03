@@ -1,7 +1,7 @@
 {
   "name": "hs-client",
   "version": "0.0.11",
-  "description": "HSD node and wallet client",
+  "description": "CLI Tools for Handshake",
   "keywords": [
     "http",
     "request",
@@ -9,30 +9,23 @@
     "websockets"
   ],
   "license": "MIT",
-  "repository": "git://github.com/handshake-org/hs-client.git",
-  "homepage": "https://github.com/handshake-org/hs-client",
+  "repository": "git://github.com/pcfreak30/hns-cli.git",
+  "homepage": "https://github.com/pcfreak30/hns-cli",
   "bugs": {
-    "url": "https://github.com/handshake-org/hs-client/issues"
+    "url": "https://github.com/pcfreak30/hns-cli/issues"
   },
-  "author": "Christopher Jeffrey <chjjeffrey@gmail.com>",
+  "authors": [
+      "Christopher Jeffrey <chjjeffrey@gmail.com>",
+      "Derrick Hammer <derrick@derrickhammer.com>"
+  ],
   "main": "./lib/hs-client.js",
   "scripts": {
-    "lint": "eslint $(cat .eslintfiles)",
-    "test": "bmocha --reporter spec test/*-test.js"
-  },
-  "bin": {
-    "hsd-cli": "./bin/hsd-cli",
-    "hsd-rpc": "./bin/hsd-rpc",
-    "hsw-cli": "./bin/hsw-cli",
-    "hsw-rpc": "./bin/hsw-rpc"
+    "build": "node build"
   },
   "dependencies": {
     "bcfg": "~0.1.7",
     "bcurl": "~0.2.0",
     "bsert": "~0.0.10"
-  },
-  "devDependencies": {
-    "bmocha": "^2.1.5"
   },
   "engines": {
     "node": ">=8.0.0"

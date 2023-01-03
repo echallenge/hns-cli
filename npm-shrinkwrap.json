@@ -13,15 +13,6 @@
         "bcurl": "~0.2.0",
         "bsert": "~0.0.10"
       },
-      "bin": {
-        "hsd-cli": "bin/hsd-cli",
-        "hsd-rpc": "bin/hsd-rpc",
-        "hsw-cli": "bin/hsw-cli",
-        "hsw-rpc": "bin/hsw-rpc"
-      },
-      "devDependencies": {
-        "bmocha": "^2.1.5"
-      },
       "engines": {
         "node": ">=8.0.0"
       }
@@ -54,7 +45,7 @@
       "version": "2.1.6",
       "resolved": "https://registry.npmjs.org/bmocha/-/bmocha-2.1.6.tgz",
       "integrity": "sha512-k4+qrIfKOoTSmAczgMtVF3DuKZ81FL7tzOX4W3el3mpTnSgZj+GTTh9Oij6aXJ5q8I9zpBys/q/Xt1LnRfuzlA==",
-      "dev": true,
+      "extraneous": true,
       "bin": {
         "_bmocha": "bin/_bmocha",
         "bmocha": "bin/bmocha"
@@ -114,10 +105,9 @@
       }
     },
     "bmocha": {
-      "version": "2.1.6",
-      "resolved": "https://registry.npmjs.org/bmocha/-/bmocha-2.1.6.tgz",
+      "version": "https://registry.npmjs.org/bmocha/-/bmocha-2.1.6.tgz",
       "integrity": "sha512-k4+qrIfKOoTSmAczgMtVF3DuKZ81FL7tzOX4W3el3mpTnSgZj+GTTh9Oij6aXJ5q8I9zpBys/q/Xt1LnRfuzlA==",
-      "dev": true
+      "extraneous": true
     },
     "brq": {
       "version": "0.1.8",
