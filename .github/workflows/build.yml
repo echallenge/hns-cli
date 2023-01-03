@@ -41,8 +41,8 @@ jobs:
         mkdir -p debian/usr/bin
         cp build/hsd-cli debian/usr/bin
         cp build/hsw-cli debian/usr/bin
-        cp build/hsd-rpc debian/usr/bin
-        cp build/hsw-rpc debian/usr/bin
+        cp bin/hsd-rpc debian/usr/bin
+        cp bin/hsw-rpc debian/usr/bin
     - name: Publish PPA
       uses: yuezk/publish-ppa-package@main
       with:
