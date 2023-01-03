@@ -38,12 +38,16 @@ jobs:
 
     - name: Prepare Package
       run: |
-        mkdir -p pkg/usr/bin
-        cp -r debian/ pkg/
-        cp build/hsd-cli pkg/usr/bin
-        cp build/hsw-cli pkg/usr/bin
-        cp bin/hsd-rpc pkg/usr/bin
-        cp bin/hsw-rpc pkg/usr/bin
+        sudo apt-get update && apt-get install jq -y
+        NAME=$(cat package.json | jq '.name')
+        VERSION=$(cat package.json | jq '.version')
+        $PKG_FOLDER="$NAME-$VERSION"
+        mkdir -p $NAME-$VERSION/usr/bin
+        cp -r debian/ $PKG_FOLDER/
+        cp build/hsd-cli $PKG_FOLDER/usr/bin
+        cp build/hsw-cli $PKG_FOLDER/usr/bin
+        cp bin/hsd-rpc $PKG_FOLDER/usr/bin
+        cp bin/hsw-rpc $PKG_FOLDER/usr/bin
     - name: Publish PPA
       uses: yuezk/publish-ppa-package@main
       with:
