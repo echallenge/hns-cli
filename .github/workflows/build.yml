@@ -18,6 +18,10 @@ jobs:
     steps:
 
     - uses: actions/checkout@v2
+    - name: Setup debug session
+      with:
+          limit-access-to-actor: true
+      uses: lhotari/action-upterm@v1
     - name: Setup
       uses: actions/setup-node@v1
 
