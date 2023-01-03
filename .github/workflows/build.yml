@@ -47,10 +47,11 @@ jobs:
         cp build/hsw-cli $PKG_FOLDER/usr/bin
         cp bin/hsd-rpc $PKG_FOLDER/usr/bin
         cp bin/hsw-rpc $PKG_FOLDER/usr/bin
+        echo "PKG_FOLDER=$PKG_FOLDER" >> $GITHUB_ENV
     - name: Publish PPA
       uses: yuezk/publish-ppa-package@main
       with:
         repository: 'ppa:pcfreak30/hns-cli'
         gpg_private_key: ${{ secrets.PPA_GPG_PRIVATE_KEY }}
         gpg_passphrase: ${{ secrets.PPA_GPG_PASSPHRASE }}
-        pkgdir: '${{ github.workspace }}/pkg'
+        pkgdir: '${{ github.workspace }}/${{ env.PKG_FOLDER }}'
