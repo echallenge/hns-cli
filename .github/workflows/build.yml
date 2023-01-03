@@ -43,9 +43,9 @@ jobs:
         cp build/hsw-cli debian/usr/bin
         cp build/hsd-rpc debian/usr/bin
         cp build/hsw-rpc debian/usr/bin
-    name: Publish PPA
-    uses: yuezk/publish-ppa-package@main
-    with:
+    - name: Publish PPA
+      uses: yuezk/publish-ppa-package@main
+      with:
         repository: 'ppa:pcfreak30/hns-cli'
         gpg_private_key: ${{ secrets.PPA_GPG_PRIVATE_KEY }}
         gpg_passphrase: ${{ secrets.PPA_GPG_PASSPHRASE }}
