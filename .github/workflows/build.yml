@@ -32,7 +32,7 @@ jobs:
       with:
         deno-version: v1.x
     - name: Deno Compile
-      run: >
+      run: |
           deno compile --allow-all bundle/hsd-cli.js -o build/hsd-cli
           deno compile --allow-all bundle/hsw-cli.js -o build/hsw-cli
 
