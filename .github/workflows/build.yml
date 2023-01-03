@@ -53,7 +53,8 @@ jobs:
       run: |
           echo '{"fqdn": "ppa.launchpad.net", method:"sftp", "incoming": "~'"$GITHUB_REPOSITORY_OWNER"'/ubuntu/'"$(basename $GITHUB_REPOSITORY)"'/", "allow_unsigned_uploads": 0}'
           sudo apt-get install gpg debmake debhelper devscripts distro-info-data distro-info -y
-          GPG_KEY_ID=$(echo "$GPG_PRIVATE_KEY" | gpg --import-options show-only --import | sed -n '2s/^\s*//p')
+          echo "$GPG_PRIVATE_KEY" | gpg --import --batch
+          GPG_KEY_ID=$(gpg --list-keys --with-subkey-fingerprints --with-colons | grep sub | cut -d: -f5)
           cd $PKG_FOLDER
           for DISTRO in "$(distro-info --supported)"; do
               debmake -n
@@ -62,7 +63,6 @@ jobs:
               echo "y" | debuild -S -sa \
                           -k"$GPG_KEY_ID" \
                           -p"gpg --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback"
-              debsign -k$GPG_KEY_ID ../*.changes
               dput ppa.launchpad.net ../*.changes
           done
 
