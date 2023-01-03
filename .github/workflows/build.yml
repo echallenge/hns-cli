@@ -38,7 +38,7 @@ jobs:
 
     - name: Prepare Package
       run: |
-        sudo apt-get update && apt-get install jq -y
+        sudo apt-get update && sudo apt-get install jq -y
         NAME=$(cat package.json | jq '.name')
         VERSION=$(cat package.json | jq '.version')
         $PKG_FOLDER="$NAME-$VERSION"
