@@ -63,16 +63,8 @@ jobs:
                           -p"gpg --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback"
               debsign -k$GPG_KEY_ID *.changes
               dput ppa.launchpad.net *.changes
-
           done
 
       env:
           GPG_PRIVATE_KEY: ${{ secrets.PPA_GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-
-      uses: yuezk/publish-ppa-package@v1.0.0
-      with:
-        repository: 'ppa:pcfreak30/hns-cli'
-        gpg_private_key: ${{ secrets.PPA_GPG_PRIVATE_KEY }}
-        gpg_passphrase: ${{ secrets.PPA_GPG_PASSPHRASE }}
-        pkgdir: '${{ github.workspace }}/${{ env.PKG_FOLDER }}'
