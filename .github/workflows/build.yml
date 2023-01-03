@@ -38,8 +38,8 @@ jobs:
 
     - name: Prepare Package
       run: |
-        NAME=$(cat package.json | jq '.name')
-        VERSION=$(cat package.json | jq '.version')
+        NAME=$(cat package.json | jq -r '.name')
+        VERSION=$(cat package.json | jq -r '.version')
         PKG_FOLDER="$NAME-$VERSION"
         mkdir -p $NAME-$VERSION/usr/bin
         cp -r debian/ $PKG_FOLDER/
