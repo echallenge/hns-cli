@@ -1,5 +1,5 @@
 Source: hns-cli
-Build-Depends:
+Build-Depends: debhelper (>= 10)
 Maintainer: Derrick Hammer <derrick@derrickhammer.com>
 Description: CLI Tools for the Handshake blockchain
 
