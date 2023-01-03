@@ -33,8 +33,8 @@ jobs:
         deno-version: v1.x
     - name: Deno Compile
       run: |
-          deno compile --allow-all bundle/hsd-cli.js -o build/hsd-cli
-          deno compile --allow-all bundle/hsw-cli.js -o build/hsw-cli
+          deno compile --allow-all -o build/hsd-cli bundle/hsd-cli.js
+          deno compile --allow-all  -o build/hsw-cli bundle/hsw-cli.js
 
     - name: Add NFPM Repo
       run: |
