@@ -48,7 +48,28 @@ jobs:
         cp bin/hsd-rpc $PKG_FOLDER/usr/bin
         cp bin/hsw-rpc $PKG_FOLDER/usr/bin
         echo "PKG_FOLDER=$PKG_FOLDER" >> $GITHUB_ENV
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
     - name: Publish PPA
+      run: |
+          echo '{"fqdn": "ppa.launchpad.net", method:"sftp", "incoming": "~'"$GITHUB_REPOSITORY_OWNER"'/ubuntu/'"$(basename $GITHUB_REPOSITORY)"'/", "allow_unsigned_uploads": 0}'
+          sudo apt-get install gpg debmake debhelper devscripts distro-info-data distro-info -y
+          for DISTRO in "$(distro-info --supported)"; do
+              GPG_KEY_ID=$(echo "$GPG_PRIVATE_KEY" | gpg --import-options show-only --import | sed -n '2s/^\s*//p')
+              debmake -n
+              rm -f $PKG_FOLDER/debian/changelog
+              dch --create -D bionic -M --package "hns-cli" --newversion "$VERSION"  --empty
+              echo "y" | debuild -S -sa \
+                          -k"$GPG_KEY_ID" \
+                          -p"gpg --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback"
+              debsign -k$GPG_KEY_ID *.changes
+              dput ppa.launchpad.net *.changes
+
+          done
+
+      env:
+          GPG_PRIVATE_KEY: ${{ secrets.PPA_GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
       uses: yuezk/publish-ppa-package@v1.0.0
       with:
         repository: 'ppa:pcfreak30/hns-cli'
