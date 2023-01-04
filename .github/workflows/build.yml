@@ -61,6 +61,7 @@ jobs:
                 allow_unsigned_uploads = 0
           EOT
 
+          mkdir -p ~/.ssh
           cat <<EOT >> ~/.ssh/config
 
           Host ppa.launchpad.net
