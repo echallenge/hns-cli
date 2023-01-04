@@ -60,7 +60,8 @@ jobs:
                 login = $GITHUB_REPOSITORY_OWNER
                 allow_unsigned_uploads = 0
           EOT
-          sudo apt-get install gpg debmake debhelper devscripts distro-info-data distro-info paramiko -y
+          sudo apt-get install gpg debmake debhelper devscripts distro-info-data distro-info -y
+          pip install paramiko
           echo "$GPG_PRIVATE_KEY" | gpg --import --batch
           GPG_KEY_ID=$(gpg --list-keys --with-subkey-fingerprints --with-colons | grep sub | cut -d: -f5)
           cd $PKG_FOLDER
