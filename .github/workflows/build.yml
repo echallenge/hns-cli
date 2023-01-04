@@ -50,7 +50,7 @@ jobs:
       run: |
           nfpm pkg --packager deb
           mkdir -p repo/conf
-          DISTROS=$(distro-info --supported)
+          DISTROS=($(distro-info --supported))
           for DISTRO in "${DISTROS[@]}"; do
             cp pkg/distributions repo/conf
             echo sed -i "s/<osrelease>/${DISTRO}/" repo/conf/distributions
