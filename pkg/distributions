@@ -1,0 +1,7 @@
+Origin: HNS CLI
+Label: HNS CLI
+Codename: <osrelease>
+Architectures: source i386 amd64
+Components: main
+Description: CLI Tools for Handshake
+SignWith: <key-id>

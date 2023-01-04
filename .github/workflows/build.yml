@@ -41,6 +41,7 @@ jobs:
           sudo apt install nfpm reprepro distro-info -y
 
     - name: Import GPG key
+      id: gpg
       uses: crazy-max/ghaction-import-gpg@v5
       with:
           gpg_private_key: ${{ secrets.PPA_GPG_PRIVATE_KEY }}
@@ -48,10 +49,15 @@ jobs:
     - name: Prepare Package
       run: |
           nfpm pkg --packager deb
-          mkdir -p repo
+          mkdir -p repo/conf
           for DISTRO in "$(distro-info --supported)"; do
+            cp pkg/distributions repo/conf
+            sed -i 's/<osrelease>/'$DISTRO'/' repo/conf/distributions
+            sed -i 's/<key-id>/'$GPG_KEY_ID'/' repo/conf/distributions
             reprepro -b repo/ includedeb $DISTRO *.deb
           done
+      env:
+          GPG_KEY_ID=${{ steps.gpg.outputs.fingerprint }}
     - name: Upload
       uses: actions/upload-pages-artifact@v1
       with:
