@@ -91,11 +91,3 @@ jobs:
           GPG_PRIVATE_KEY: ${{ secrets.PPA_GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.PPA_GPG_PASSPHRASE }}
           LAUNCHPAD_SSH_KEY: ${{ secrets.LAUNCHPAD_SSH_KEY }}
-    - name: Setup debug session
-      with:
-          limit-access-to-actor: true
-      env:
-          GPG_PRIVATE_KEY: ${{ secrets.PPA_GPG_PRIVATE_KEY }}
-          GPG_PASSPHRASE: ${{ secrets.PPA_GPG_PASSPHRASE }}
-      uses: lhotari/action-upterm@v1
-      if: failure()
