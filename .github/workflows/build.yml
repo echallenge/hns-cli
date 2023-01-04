@@ -50,7 +50,8 @@ jobs:
       run: |
           nfpm pkg --packager deb
           mkdir -p repo/conf
-          for DISTRO in "$(distro-info --supported)"; do
+          DISTROS=$(distro-info --supported)
+          for DISTRO in "${DISTROS[@]}"; do
             cp pkg/distributions repo/conf
             echo sed -i "s/<osrelease>/${DISTRO}/" repo/conf/distributions
             echo sed -i "s/<key-id>/${GPG_KEY_ID}/" repo/conf/distributions
