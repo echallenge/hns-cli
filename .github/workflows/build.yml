@@ -57,7 +57,7 @@ jobs:
             reprepro -b repo/ includedeb $DISTRO *.deb
           done
       env:
-          GPG_KEY_ID=${{ steps.gpg.outputs.fingerprint }}
+          GPG_KEY_ID: ${{ steps.gpg.outputs.fingerprint }}
     - name: Upload
       uses: actions/upload-pages-artifact@v1
       with:
