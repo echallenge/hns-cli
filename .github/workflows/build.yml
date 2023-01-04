@@ -77,7 +77,7 @@ jobs:
           echo "$GPG_PRIVATE_KEY" | gpg --import --batch
           GPG_KEY_ID=$(gpg --list-keys --with-subkey-fingerprints --with-colons | grep sub | cut -d: -f5)
           cd $PKG_FOLDER
-          for DISTRO in "$(distro-info --supported)"; do
+          for DISTRO in bionic focal jammy kinetic; do
               debmake -n
               rm -f debian/changelog
               dch --create -D $DISTRO -M --package "hns-cli" --newversion "$VERSION"  --empty
