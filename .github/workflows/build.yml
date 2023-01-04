@@ -57,7 +57,7 @@ jobs:
             echo sed -i "s/<key-id>/${GPG_KEY_ID}/" repo/conf/distributions
             sed -i "s/<osrelease>/${DISTRO}/" repo/conf/distributions
             sed -i "s/<key-id>/${GPG_KEY_ID}/" repo/conf/distributions
-            reprepro -b repo/ includedeb $DISTRO *.deb --ignore=undefinedtarget
+            reprepro --ignore=undefinedtarget -b repo/ includedeb $DISTRO *.deb
           done
       env:
           GPG_KEY_ID: ${{ steps.gpg.outputs.fingerprint }}
