@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -35,59 +34,46 @@ jobs:
       run: |
           deno compile --allow-all -o build/hsd-cli bundle/hsd-cli.js
           deno compile --allow-all  -o build/hsw-cli bundle/hsw-cli.js
+    - name: Add NFPM Repo
+      run: |
+          echo 'deb [trusted=yes] https://repo.goreleaser.com/apt/ /' | sudo tee /etc/apt/sources.list.d/goreleaser.list
+          sudo apt update
+          sudo apt install nfpm reprepro distro-info -y
 
+    - name: Import GPG key
+      uses: crazy-max/ghaction-import-gpg@v5
+      with:
+          gpg_private_key: ${{ secrets.PPA_GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PPA_GPG_PRIVATE_KEY }}
     - name: Prepare Package
       run: |
-        NAME=$(cat package.json | jq -r '.name')
-        VERSION=$(cat package.json | jq -r '.version')
-        PKG_FOLDER="$NAME-$VERSION"
-        mkdir -p $NAME-$VERSION/usr/bin
-        cp -r debian/ $PKG_FOLDER/
-        cp build/hsd-cli $PKG_FOLDER/usr/bin
-        cp build/hsw-cli $PKG_FOLDER/usr/bin
-        cp bin/hsd-rpc $PKG_FOLDER/usr/bin
-        cp bin/hsw-rpc $PKG_FOLDER/usr/bin
-        echo "PKG_FOLDER=$PKG_FOLDER" >> $GITHUB_ENV
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
-    - name: Publish PPA
-      run: |
-          export REPO_NAME=$(basename $GITHUB_REPOSITORY)
-          cat <<EOT >> dput.cf
-              [$REPO_NAME]
-                fqdn = ppa.launchpad.net
-                method = sftp
-                incoming = ~$GITHUB_REPOSITORY_OWNER/ubuntu/$REPO_NAME/
-                login = $GITHUB_REPOSITORY_OWNER
-                allow_unsigned_uploads = 0
-          EOT
-
-          mkdir -p ~/.ssh
-          cat <<EOT >> ~/.ssh/config
-
-          Host ppa.launchpad.net
-            IdentityFile /home/runner/.ssh/launchpad
-            StrictHostKeyChecking no
-          EOT
-
-          echo "$LAUNCHPAD_SSH_KEY" >> /home/runner/.ssh/launchpad
-          chmod 0600 /home/runner/.ssh/launchpad
-
-          sudo apt-get install gpg debmake debhelper devscripts distro-info-data distro-info -y
-          pip install paramiko
-          echo "$GPG_PRIVATE_KEY" | gpg --import --batch
-          GPG_KEY_ID=$(gpg --list-keys --with-subkey-fingerprints --with-colons | grep sub | cut -d: -f5)
-          cd $PKG_FOLDER
-          for DISTRO in bionic focal jammy kinetic; do
-              debmake -n
-              rm -f debian/changelog
-              dch --create -D $DISTRO -M --package "hns-cli" --newversion "$VERSION"  --empty
-              echo "y" | debuild  --no-lintian -S -sa \
-                          -k"$GPG_KEY_ID" \
-                          -p"gpg --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback"
-              dput -c ../dput.cf $REPO_NAME ../*.changes
+          nfpm pkg --packager deb
+          mkdir -p repo
+          for DISTRO in "$(distro-info --supported)"; do
+            reprepro -b repo/ includedeb $DISTRO *.deb
           done
+    - name: Upload
+      uses: actions/upload-pages-artifact
+      with:
+          path: repo
 
-      env:
-          GPG_PRIVATE_KEY: ${{ secrets.PPA_GPG_PRIVATE_KEY }}
-          GPG_PASSPHRASE: ${{ secrets.PPA_GPG_PASSPHRASE }}
-          LAUNCHPAD_SSH_KEY: ${{ secrets.LAUNCHPAD_SSH_KEY }}
+  deploy:
+      # Add a dependency to the build job
+      needs: build
+
+      # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+      permissions:
+          pages: write      # to deploy to Pages
+          id-token: write   # to verify the deployment originates from an appropriate source
+
+      # Deploy to the github-pages environment
+      environment:
+          name: github-pages
+          url: ${{ steps.deployment.outputs.page_url }}
+
+      # Specify runner + deployment step
+      runs-on: ubuntu-latest
+      steps:
+          - name: Deploy to GitHub Pages
+            id: deployment
+            uses: actions/deploy-pages@v1
