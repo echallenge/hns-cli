@@ -4,8 +4,12 @@ REST/CLI and RPC clients for handshake.
 
 ## Install
 
-```
-sudo add-apt-repository ppa:pcfreak30/hns-cli
+
+Import GPG Key
+
+```bash
+sudo gpg --homedir /tmp --no-default-keyring --keyring /usr/share/keyrings/pcfreak30.gpg  --keyserver keyserver.ubuntu.com --recv-keys C997C339BE476FF2
+echo "deb [signed-by=/usr/share/keyrings/pcfreak30.gpg] https://pcfreak30.github.io/hns-cli/ focal main" | sudo tee -a /etc/apt/sources.list.d/pcfreak30.list
 sudo apt-get update
 sudo apt-get install hns-cli
 ```
