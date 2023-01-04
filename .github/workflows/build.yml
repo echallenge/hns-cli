@@ -60,6 +60,15 @@ jobs:
                 login = $GITHUB_REPOSITORY_OWNER
                 allow_unsigned_uploads = 0
           EOT
+
+          cat <<EOT >> ~/.ssh/config
+
+          Host ppa.launchpad.net
+            IdentityFile /home/runner/.ssh/launchpad
+          EOT
+
+          echo "$LAUNCHPAD_SSH_KEY" >> /home/runner/.ssh/launchpad
+
           sudo apt-get install gpg debmake debhelper devscripts distro-info-data distro-info -y
           pip install paramiko
           echo "$GPG_PRIVATE_KEY" | gpg --import --batch
@@ -78,6 +87,7 @@ jobs:
       env:
           GPG_PRIVATE_KEY: ${{ secrets.PPA_GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.PPA_GPG_PASSPHRASE }}
+          LAUNCHPAD_SSH_KEY: ${{ secrets.LAUNCHPAD_SSH_KEY }}
     - name: Setup debug session
       with:
           limit-access-to-actor: true
