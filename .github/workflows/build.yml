@@ -52,8 +52,8 @@ jobs:
           mkdir -p repo/conf
           for DISTRO in "$(distro-info --supported)"; do
             cp pkg/distributions repo/conf
-            sed -i 's/<osrelease>/'"$DISTRO"'/g' repo/conf/distributions
-            sed -i 's/<key-id>/'"$GPG_KEY_ID"'/g' repo/conf/distributions
+            sed -i "s/<osrelease>/${DISTRO}/" repo/conf/distributions
+            sed -i "s/<key-id>/${GPG_KEY_ID}/" repo/conf/distributions
             reprepro -b repo/ includedeb $DISTRO *.deb
           done
       env:
