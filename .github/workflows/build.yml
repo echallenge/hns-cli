@@ -71,7 +71,7 @@ jobs:
               echo "y" | debuild  --no-lintian -S -sa \
                           -k"$GPG_KEY_ID" \
                           -p"gpg --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback"
-              dput -c ../dput.cf ppa.launchpad.net ../*.changes
+              dput -c ../dput.cf $REPO_NAME ../*.changes
           done
 
       env:
