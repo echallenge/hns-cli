@@ -69,6 +69,7 @@ jobs:
           EOT
 
           echo "$LAUNCHPAD_SSH_KEY" >> /home/runner/.ssh/launchpad
+          chmod 0600 /home/runner/.ssh/launchpad
 
           sudo apt-get install gpg debmake debhelper devscripts distro-info-data distro-info -y
           pip install paramiko
