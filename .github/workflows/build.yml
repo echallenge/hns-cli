@@ -66,6 +66,7 @@ jobs:
 
           Host ppa.launchpad.net
             IdentityFile /home/runner/.ssh/launchpad
+            StrictHostKeyChecking no
           EOT
 
           echo "$LAUNCHPAD_SSH_KEY" >> /home/runner/.ssh/launchpad
