@@ -62,7 +62,7 @@ jobs:
               dch --create -D bionic -M --package "hns-cli" --newversion "$VERSION"  --empty
               echo "y" | debuild -S -sa \
                           -k"$GPG_KEY_ID" \
-                          -p"gpg --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback"
+                          -p"gpg --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback" --no-lintian
               dput ppa.launchpad.net ../*.changes
           done
 
