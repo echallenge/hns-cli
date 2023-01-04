@@ -51,7 +51,15 @@ jobs:
         echo "VERSION=$VERSION" >> $GITHUB_ENV
     - name: Publish PPA
       run: |
-          echo '{"fqdn": "ppa.launchpad.net", method:"sftp", "incoming": "~'"$GITHUB_REPOSITORY_OWNER"'/ubuntu/'"$(basename $GITHUB_REPOSITORY)"'/", "allow_unsigned_uploads": 0}' > dput.json
+          export REPO_NAME=$(basename $GITHUB_REPOSITORY)
+          cat <<EOT >> dput.cf
+              [$REPO_NAME]
+                fqdn = ppa.launchpad.net
+                method = sftp
+                incoming = ~$GITHUB_REPOSITORY_OWNER/ubuntu/$REPO_NAME/
+                login = $GITHUB_REPOSITORY_OWNER
+                allow_unsigned_uploads = 0
+          EOT
           sudo apt-get install gpg debmake debhelper devscripts distro-info-data distro-info -y
           echo "$GPG_PRIVATE_KEY" | gpg --import --batch
           GPG_KEY_ID=$(gpg --list-keys --with-subkey-fingerprints --with-colons | grep sub | cut -d: -f5)
@@ -63,7 +71,7 @@ jobs:
               echo "y" | debuild  --no-lintian -S -sa \
                           -k"$GPG_KEY_ID" \
                           -p"gpg --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback"
-              dput -c ../dput.json ppa.launchpad.net ../*.changes
+              dput -c ../dput.cf ppa.launchpad.net ../*.changes
           done
 
       env:
