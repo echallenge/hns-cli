@@ -55,7 +55,7 @@ jobs:
           cat <<EOT >> dput.cf
               [$REPO_NAME]
                 fqdn = ppa.launchpad.net
-                method = scp
+                method = sftp
                 incoming = ~$GITHUB_REPOSITORY_OWNER/ubuntu/$REPO_NAME/
                 login = $GITHUB_REPOSITORY_OWNER
                 allow_unsigned_uploads = 0
