@@ -53,7 +53,7 @@ jobs:
             reprepro -b repo/ includedeb $DISTRO *.deb
           done
     - name: Upload
-      uses: actions/upload-pages-artifact
+      uses: actions/upload-pages-artifact@v1
       with:
           path: repo
 
