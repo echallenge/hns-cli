@@ -1,12 +1,25 @@
-# hs-client
+# HNS CLI
 
-REST and RPC clients for handshake.
+REST/CLI and RPC clients for handshake.
+
+## Install
+
+```
+sudo add-apt-repository ppa:pcfreak30/hns-cli
+sudo apt-get update
+sudo apt-get install hns-cli
+```
 
 ## Usage
 
-``` js
-const {NodeClient, WalletClient} = require('hs-client');
-```
+Programs available:
+
+* hsd-cli
+* hsd-rpc
+* hsw-cli
+* hsw-rpc
+
+CLI/API Docs: https://hsd-dev.org/api-docs/
 
 ## Contribution and License Agreement
 
@@ -17,5 +30,6 @@ all code is your original work. `</legalese>`
 ## License
 
 - Copyright (c) 2017, Christopher Jeffrey (MIT License).
+- Copyright (c) 2023, Derrick Hammer (MIT License).
 
 See LICENSE for more info.
