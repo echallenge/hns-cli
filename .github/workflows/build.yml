@@ -80,7 +80,7 @@ jobs:
           for DISTRO in "$(distro-info --supported)"; do
               debmake -n
               rm -f debian/changelog
-              dch --create -D bionic -M --package "hns-cli" --newversion "$VERSION"  --empty
+              dch --create -D $DISTRO -M --package "hns-cli" --newversion "$VERSION"  --empty
               echo "y" | debuild  --no-lintian -S -sa \
                           -k"$GPG_KEY_ID" \
                           -p"gpg --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback"
